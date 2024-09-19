@@ -10,6 +10,7 @@ fn stack_only(b: i32) -> i32 {
 }
 fn stack_and_heap() -> i32 {
     let d = 5;
+    //Box는 러스트의 스마트 포인터 타입
     let e = Box::new(7);
     return  d + *e;
 }
