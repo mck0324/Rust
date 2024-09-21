@@ -1,6 +1,8 @@
 fn main() {
+    let mut mars_weight = calculate_weight_on_mars(100.0);
     // println!("Number: {}, String: {}", 100, "abc");
-    println!("Weight on Mars: {}kg", calculate_weight_on_mars(100.0));
+    mars_weight = mars_weight * 1000.0;
+    println!("Weight on Mars: {}kg", mars_weight);
 
 }
 
