@@ -53,3 +53,18 @@ fn으로 함수가 시작되며
 일단 변수에 값을 할당하면,절대 변경될 수 없다는 뜻!
 가변 변수로 만들려면 반드시 명시적 선언이 필요
 let mut mars_weight 이런식으로 mut를 선언해줘야함
+
+------------------------------------------------------------------------------------------------------------------------------
+io::stdin().read_line(&mut input);
+에서 &mut란?
+러스트에는 세가지 소유권 규칙이 존재.
+
+1.Each value in Rust is owned ny a variable.
+러스트에서 각각의 값은 변수가 소유한다는것.
+
+2.When the owner goes out of scope, the value will be deallocated.
+소유자가 범의를 벗어나면 그 값은 해제.
+
+3.There can only be ONE onwer at a time.
+특정 시점에 값의 소유자는 단 하나뿐이다.
+
