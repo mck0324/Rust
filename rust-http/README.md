@@ -42,3 +42,7 @@ enum Method {
     
 }
 를 봤을때 Method가 GET이라면 메모리에서 우린 그냥 0을 저장,DELETE라면 1을 저장
+
+RUST는 NO VALUE를 지원하지 않는다.하지만 비록 RUST가 언어에서 NO를 삭제하기로 했지만 값이 없다는걸 어떻게든 표현하길 원함 => RUST는 완벽히 타입에 안전한 방식으로 그걸함,표준 라이브러리의 특수 enum인 Option을 사용
+query_string: Option<String>는 이게 String에 대해 제네릭한 Option이라는걸 컴파일러에게 알려주는것! -> 컴파일러는 String을 담는 Option enum에 필요한 공간을 할당
+이런 방식으로 하면 우리는 예외가 발생할 걸 걱정하지 않고 타입에 대해 안전한 방식으로 값이 어떻게 표현되는지 알 수 있음
