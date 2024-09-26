@@ -26,3 +26,19 @@ GET /user?id=10 HTTP/1.1\r\n
 HEADERS \r\n
 BODY
 구현해보자
+
+ENUM은 유한한 값 집합을 갖고 있는 툭수한 타입  RUST의 ENUM은 Haskell의 대수 자료형과 아주 비슷함
+메모리 안에서는 enum의 베리언트가 단순한 숫자로 표시
+enum Method {
+    GET,
+    DELETE,
+    POST,
+    PUT,
+    HEAD,
+    CONNECT,
+    OPTIONS,
+    TRACE,
+    PATCH,
+    
+}
+를 봤을때 Method가 GET이라면 메모리에서 우린 그냥 0을 저장,DELETE라면 1을 저장
