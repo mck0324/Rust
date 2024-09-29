@@ -65,3 +65,15 @@ RUST의 오류는 두가지로 구분.
 대부분의 언어는 위의 2가지를 구분하지 않고 예외처리를 이용함 하지만 RUST는 예외를 지원하지 않음 =>대신에 복구 가능한 오류를 다루기위해 Result enum을 사용
 pub type Result<T> = result::Result<T, Error>;
 를 이용하여 우린 커스텀타입을 정의할 수 있음
+
+
+*반복문을 이용해 새로운 연결이 있는지 확인해보자
+무한반복문 while문도 있지만 loop를 이용
+RUST의 loop는 레이블을 지정할 수 있음
+'outer: loop {
+            loop {
+                break 'outer;
+            }
+        }
+이런식으로 하면 안의 loop에서 바깥의 loop를 멈출 수 있음
+continue 또한 break와 일치

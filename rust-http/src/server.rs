@@ -11,5 +11,11 @@ impl Server {
         println!("Listening on {}", self.addr);
 
         let listener = TcpListener::bind(&self.addr).unwrap();
+
+        'outer: loop {
+            loop {
+                break 'outer;
+            }
+        }
     }
 }
