@@ -77,3 +77,29 @@ RUST의 loop는 레이블을 지정할 수 있음
         }
 이런식으로 하면 안의 loop에서 바깥의 loop를 멈출 수 있음
 continue 또한 break와 일치
+
+우리가 반복문을 사용하기전 생각해야될것은 새로운 연결이 있는지 체크를 해야함.
+listener.accept();은 새로운 연결이 있는지 청취 -> 새로운 TCP연결이 수립될 때까지는 호출스레드를 차단 Result<(TcpStream, SocketAddr)> 이런식으로 리턴이 되는데
+리턴값이 TcpStream,SocketAddr로 튜플형식으로 나옴
+    *튜플이란? 다른 타입으로 된 많은 값들을 하나의 복합타입으로 그룹화하는데 사용
+    튜퓰은 길이가 정해져있고,선언한 다음에는 길이를 줄이거나 늘릴 수 없음
+    let tup = (5, "a", listener); => return값에 (i32, &str, TcpListener)로 정의하면 됨
+
+
+listener.accept();를 이어서 어떤 이유에서라도 실패했을경우 우리는 프로그램이 종료되길 원하지 않는다.
+listener.accept().unwrap();를 사용할 경우 ERROR발생시 프로그램 종료할것이다. => 그래서 우린 unwrap()를 사용하기전 Result가 Err인지 확인해야함
+
+let res = listener.accept();
+if res.is_err() {
+    continue;
+}
+let (stream, addr) = res.unwrap();
+해당코드는 괜찮은거 같지만,RUST enum 변수를 다루기엔 BEST가 아니다. Result는 간단히 Ok,Err이다.하지만 예를 들어 우리가 Method enum의 변수를 체크해야한다면? 또한 각각에 대한 로직을 구현하려면 수많은 if/else구문을 작성해야할것이다. => 가독성 저하 => RUST에서 강력하고 편리하게 enum을 다루기 위해 "MATCH"가 있다.
+*MATHC를 이용하면 어떤값과 일련의 패턴을 비교하고 매칭되는 패턴으로 코드를 실행할 수 있음
+match는 enum뿐만 아니라 일반적인 switch문도 작동
+match "abcd" {
+                "abcd" => println!(),
+                "a" | "b" => {},
+                _ => {}
+            }
+이렇게도 가능

@@ -12,9 +12,18 @@ impl Server {
 
         let listener = TcpListener::bind(&self.addr).unwrap();
 
-        'outer: loop {
-            loop {
-                break 'outer;
+        loop {
+            match listener.accept() {
+                Ok((stream,_)) => {
+                    let a = 5;
+                    println!("OK");
+                },
+                Err(e) => println!("Failed to establish a connect {}", e),
+            }
+            match "abcd" {
+                "abcd" => println!(),
+                "a" | "b" => {},
+                _ => {}
             }
         }
     }
