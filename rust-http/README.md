@@ -131,3 +131,23 @@ println!(" {}",) 여기서
 {}에 {:?}를 할 경우 디버그 트레이트 구현체를 호출
 
 
+str::from_utf8(buf).or()
+.or() 메소드는 만일 호출하는 Result가 오류라면 우리가 넣어준 Result를 리턴
+Result가 OK라면 그냥 언래핑하고 Ok() 안에 있는 값을 리턴할 것이다.
+
+방식1. match str::from_utf8(buf) {
+    Ok(request) => {},
+    Err(_) => return Err(ParseError::InvalidEncoding),
+}
+방식2. match str::from_utf8(buf).or(Err(ParseError::InvalidEncoding)) {
+    Ok(request) => {},
+    Err(e) => return Err(e),
+}
+
+str::from_utf8(buf).or(Err(ParseError::InvalidEncoding))?
+?(물음표 연산자)를 붙이면 이 매칭 구문이 하는 일과 거의 비슷한 일을 함
+=>Result가 Ok면 그냥 Ok()가 감싸고 있는 값을 리턴
+=>Result가 Error면 그냥 Ok()가 감싸고 있는 값을 리턴
+=>Result가 Error면 우리 함수에서 오류를 리턴할 것이다.
+
+물음표와 아닌것의 차이는 물음표는 함수가 리턴할 오류 타입이 매칭되지 않으면 그게 받는 오류 타입을 변환하려 할 것이다.
