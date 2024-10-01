@@ -4,9 +4,6 @@ pub struct Server {
     addr: String,
 }
 
-fn arr(a: &[u8]) {
-
-}
 
 impl Server {
     pub fn new(addr: String) -> Self {
@@ -20,9 +17,14 @@ impl Server {
         loop {
             match listener.accept() {
                 Ok((mut stream,_)) => {
-                    let a = [1,3,4,2,2,3,4];
-                    arr(&a[1..3]);
-                    // stream.read();
+                    let mut buffer = [0; 1024];
+                    match stream.read(&mut buffer) {
+                        Ok(_) => {
+                            println!("Receive a requst {}", String::from_utf8_lossy(&buffer));
+                        }
+                        Err(e) => println!("Failed to read from connect {}",e),
+                        
+                    }
                 },
                 Err(e) => println!("Failed to establish a connect {}", e),
             }
