@@ -1,5 +1,6 @@
 use super::method::Method;
 use std::convert::TryFrom;
+use std::error::Error;
 
 pub struct Request {
     path: String,
@@ -14,4 +15,15 @@ impl TryFrom<&[u8]> for Request {
     fn try_from(buf : &[u8]) -> Result<Self, Self::Error> {
         unimplemented!()
     }
+}
+
+pub enum ParseError {
+    InvalidRequest,
+    InvalidEncoding,
+    InvalidProtocol,
+    InvalidMethod,
+}
+
+impl Error for ParseError {
+    
 }
