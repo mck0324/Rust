@@ -151,3 +151,25 @@ str::from_utf8(buf).or(Err(ParseError::InvalidEncoding))?
 =>Result가 Error면 우리 함수에서 오류를 리턴할 것이다.
 
 물음표와 아닌것의 차이는 물음표는 함수가 리턴할 오류 타입이 매칭되지 않으면 그게 받는 오류 타입을 변환하려 할 것이다.
+
+
+Request.chars();는 RUST의 이터레이터는 다른 언어의 이터레이터와 유사.
+그냥 .next()가 붙어있는 메소드이며 우리가 매번 next()를 호출할 때마다 Option을 돌려받게 됨
+이 Option에는 다음 원소가 담겨 있거나 None이 될것이다.
+
+문자열에 대해 범위를 사용할때 인덱스만 추가하면 프로그램이 충돌하게될 수 있음. => RUST의 모든 문자열은 유효하게 utf-8로 인코딩 되어 있어야하기 때문이다.
+그래서 &reqeust[..i], &reqeust[i+1..]를 했을경우 i+1이 문자 1개를 추가한다는게 아닌 1바이트를 추가한다는 뜻이며 그 다음 문자가 1바이트보가 크고 예를들어 이모티콘이나 키릴문자이면 
+유효하지 않은 utf-8 문자열을 생성하게 되며,결국 우리는 충돌하게 됨
+
+방식1. match get_next_word(reqeust) {
+            Some((method, request)) => {},
+            None => return  Err(ParseError::InvalidRequest),
+        }
+
+방식2. let (method, request) = get_next_word(reqeust).ok_or(ParseError::InvalidRequest)?;
+
+위아래 같은거임
+
+여기서 우리가 주의할 점은 우리가 이런 let 구문에 기존의 변수 이름을 다시 사용하면 request 변수를 덮어쓴다는 점이다.우리는 기존 변수에 새로운 값을 지정하지 않고 전혀 새로운 변수를 만들고
+있습니다.이게 같은 이름으로 기존 것은 이제 더 이상 사용할 수 없다.
+=> 이렇게 로컬 변수의 이름을 다시 사용하는걸 변수 섀도잉이라고 부른다
