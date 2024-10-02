@@ -173,3 +173,29 @@ Request.chars();는 RUST의 이터레이터는 다른 언어의 이터레이터�
 여기서 우리가 주의할 점은 우리가 이런 let 구문에 기존의 변수 이름을 다시 사용하면 request 변수를 덮어쓴다는 점이다.우리는 기존 변수에 새로운 값을 지정하지 않고 전혀 새로운 변수를 만들고
 있습니다.이게 같은 이름으로 기존 것은 이제 더 이상 사용할 수 없다.
 => 이렇게 로컬 변수의 이름을 다시 사용하는걸 변수 섀도잉이라고 부른다
+
+방법1. match path.find('?') {
+    Some(i) => {
+        query_string = Some(&path[i+1..]);
+        path = &path[..i];
+    },
+    None => {}
+}
+
+방법2. let q = path.find('p');
+if q.is_some() {
+    let i = q.unwrap();
+    query_string = Some(&path[i+1..]);
+    path = &path[..i];
+}
+
+방법3. if let Some(i) = path.find('?') {
+    query_string = Some(&path[i+1..]);
+    path = &path[..i];
+}
+
+여기서 가장 베스트 방법은 3번이며 그 이유는 
+1.None => {} 같은 불필요한 암 매칭이 필요없다
+2.코드가 깔끔해진다.
+3.불필요한 많은 변수나 언래핑을 줄일 수 있다.
+방법3을 하면 우리가 관심을 갖는 변수에만 매칭하고 다른 모든건 완전히 무시할 수 있게 됨!
